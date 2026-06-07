@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Data Mahasiswa</title>
+    <title>Data Prodi</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -38,11 +38,11 @@
         <div class="card">
             <div class="card-header">
                 <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h2 class="fw-bold">Data Mahasiswa</h2>
+                    <h2 class="fw-bold">Data Prodi</h2>
 
                     <div class="d-flex gap-2">
-                        <a href="/mahasiswa/create" class="btn btn-primary btn-sm">+ Tambah</a>
-                        <a href="/mahasiswa/export/csv" class="btn btn-success btn-sm">Export CSV</a>
+                        <a href="/prodi/create" class="btn btn-primary btn-sm">+ Tambah</a>
+                        <a href="/prodi/export/csv" class="btn btn-success btn-sm">Export CSV</a>
                         {{-- <a href="/logout" class="btn btn-danger btn-sm">Logout</a> --}}
                     </div>
                 </div>
@@ -51,23 +51,11 @@
 
             <div class="card-body">
                 {{-- SEARCH --}}
-                <form method="GET" action="/mahasiswa" class="row g-2 mb-3">
+                <form method="GET" action="/prodi" class="row g-2 mb-3">
 
                     <div class="col-md-6">
-                        <input type="text" name="search" class="form-control" placeholder="Cari NPM / Nama / Prodi"
+                        <input type="text" name="search" class="form-control" placeholder="Cari nama prodi"
                             value="{{ $search ?? '' }}">
-                    </div>
-
-                    <div class="col-md-4">
-                        <select name="prodi" class="form-select">
-                            <option value="">Semua Prodi</option>
-
-                            @foreach ($daftarProdi as $item)
-                                <option value="{{ $item }}" {{ ($prodi ?? '') == $item ? 'selected' : '' }}>
-                                    {{ $item }}
-                                </option>
-                            @endforeach
-                        </select>
                     </div>
 
                     <div class="col-md-2">
@@ -84,49 +72,27 @@
                         <thead class="table-primary text-center">
                             <tr>
                                 <th>No</th>
-                                <th>NPM</th>
-                                <th>Nama</th>
-                                <th>Prodi</th>
-                                <th>IPK</th>
-                                <th>Foto</th>
+
+                                <th>Nama Prodi</th>
                                 <th style="width: 160px;">Aksi</th>
                             </tr>
                         </thead>
 
                         <tbody>
-                            @forelse ($mahasiswas as $mahasiswa)
+                            @forelse ($prodis as $prodi)
                                 <tr>
                                     <td class="text-center">
-                                        {{ $loop->iteration + ($mahasiswas->firstItem() - 1) }}
+                                        {{ ($prodis->firstItem() + $loop->index) }}
                                     </td>
 
-                                    <td>{{ $mahasiswa->npm }}</td>
-                                    <td>{{ $mahasiswa->nama }}</td>
-
-                                    <td>
-                                        <span class="badge bg-info text-dark">
-                                            {{ $mahasiswa->prodi }}
-                                        </span>
-                                    </td>
+                                    <td>{{ $prodi->nama_prodi }}</td>
 
                                     <td class="text-center">
-                                        <strong>{{ $mahasiswa->ipk }}</strong>
-                                    </td>
-
-                                    <td class="text-center">
-                                        @if ($mahasiswa->foto)
-                                            <img src="{{ asset('uploads/' . $mahasiswa->foto) }}" width="50" height="50">
-                                        @else
-                                            <span class="text-muted">-</span>
-                                        @endif
-                                    </td>
-
-                                    <td class="text-center">
-                                        <a href="/mahasiswa/{{ $mahasiswa->id }}/edit" class="btn btn-warning btn-sm">
+                                        <a href="/prodi/{{ $prodi->id }}/edit" class="btn btn-warning btn-sm">
                                             Edit
                                         </a>
 
-                                        <form action="/mahasiswa/{{ $mahasiswa->id }}" method="POST" class="d-inline">
+                                        <form action="/prodi/{{ $prodi->id }}" method="POST" class="d-inline">
 
                                             @csrf
                                             @method('DELETE')
@@ -153,7 +119,7 @@
 
                 {{-- PAGINATION --}}
                 <div class="mt-3 d-flex justify-content-center">
-                    {{ $mahasiswas->links() }}
+                    {{ $prodis->links() }}
                 </div>
             </div>
         </div>

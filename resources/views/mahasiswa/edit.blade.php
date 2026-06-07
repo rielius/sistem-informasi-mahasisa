@@ -17,7 +17,8 @@
     </style>
 </head>
 
-<body>
+<body class="bg-dark">
+    @include('components.navbar')
 
     <div class="container mt-4">
         @if ($errors->any())
@@ -30,79 +31,86 @@
             </div>
         @endif
 
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <h2 class="fw-bold">✏️ Edit Mahasiswa</h2>
-            <a href="/mahasiswa" class="btn btn-secondary btn-sm">← Kembali</a>
-        </div>
 
-        <div class="card shadow-sm p-4">
+        <div class="card shadow-sm">
 
-            <form method="POST" action="/mahasiswa/{{ $mahasiswa->id }}" enctype="multipart/form-data">
-                @csrf
-                @method('PUT')
-
-                {{-- NPM --}}
-                <div class="mb-3">
-                    <label class="form-label">NPM</label>
-                    <input type="text" name="npm" class="form-control" value="{{ $mahasiswa->npm }}" required>
+            <div class="card-header">
+                <div class="d-flex justify-content-between align-items-center my-3s">
+                    <h2 class="fw-bold">Edit Mahasiswa</h2>
+                    <a href="/mahasiswa" class="btn btn-secondary btn-sm">← Kembali</a>
                 </div>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="/mahasiswa/{{ $mahasiswa->id }}" enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
 
-                {{-- Nama --}}
-                <div class="mb-3">
-                    <label class="form-label">Nama</label>
-                    <input type="text" name="nama" class="form-control" value="{{ $mahasiswa->nama }}" required>
-                </div>
+                    {{-- NPM --}}
+                    <div class="mb-3">
+                        <label class="form-label">NPM</label>
+                        <input type="text" name="npm" class="form-control" value="{{ $mahasiswa->npm }}" required>
+                    </div>
 
-                {{-- Prodi --}}
-                {{-- <div class="mb-3">
-                    <label class="form-label">Prodi</label>
-                    <input type="text" name="prodi" class="form-control" value="{{ $mahasiswa->prodi }}" required>
-                </div> --}}
-                <div class="mb-3">
-                    <label class="form-label">Prodi</label>
-                    <select class="form-select" name="prodi" aria-label="Default select example">
-                        <option value="{{ null }}">Pilih</option>
-                        <option {{ $mahasiswa->prodi == "informatika"  ? "selected" : null}} value="informatika">informatika</option>
-                        <option {{ $mahasiswa->prodi == "Sistem Informasi"  ? "selected" : null}} value="Sistem Informasi">Sistem Informasi</option>
-                        <option {{ $mahasiswa->prodi == "Kimia" ? "selected" : null}} value="Kimia">Kimia</option>
-                    </select>
-                </div>
-                {{-- <div class="mb-3">
-                    <label class="form-label">Prodi</label>
-                    <input type="text" name="prodi" class="form-control" value="{{ $mahasiswa->prodi }}" required>
-                </div> --}}
+                    {{-- Nama --}}
+                    <div class="mb-3">
+                        <label class="form-label">Nama</label>
+                        <input type="text" name="nama" class="form-control" value="{{ $mahasiswa->nama }}" required>
+                    </div>
 
-                {{-- IPK --}}
-                <div class="mb-3">
-                    <label class="form-label">IPK</label>
-                    <input type="number" step="0.01" name="ipk" class="form-control"
-                        value="{{ $mahasiswa->ipk }}" required>
-                </div>
+                    {{-- Prodi --}}
+                    {{-- <div class="mb-3">
+                        <label class="form-label">Prodi</label>
+                        <input type="text" name="prodi" class="form-control" value="{{ $mahasiswa->prodi }}" required>
+                    </div> --}}
+                    <div class="mb-3">
+                        <label class="form-label">Prodi</label>
+                        <select class="form-select" name="prodi" aria-label="Default select example">
+                            <option value="{{ null }}">Pilih</option>
+                            <option {{ $mahasiswa->prodi == "informatika" ? "selected" : null}} value="informatika">
+                                informatika</option>
+                            <option {{ $mahasiswa->prodi == "Sistem Informasi" ? "selected" : null}}
+                                value="Sistem Informasi">
+                                Sistem Informasi</option>
+                            <option {{ $mahasiswa->prodi == "Kimia" ? "selected" : null}} value="Kimia">Kimia</option>
+                        </select>
+                    </div>
+                    {{-- <div class="mb-3">
+                        <label class="form-label">Prodi</label>
+                        <input type="text" name="prodi" class="form-control" value="{{ $mahasiswa->prodi }}" required>
+                    </div> --}}
 
-                {{-- FOTO LAMA --}}
-                <div class="mb-3">
-                    <label class="form-label">Foto Saat Ini</label><br>
+                    {{-- IPK --}}
+                    <div class="mb-3">
+                        <label class="form-label">IPK</label>
+                        <input type="number" step="0.01" name="ipk" class="form-control" value="{{ $mahasiswa->ipk }}"
+                            required>
+                    </div>
 
-                    @if ($mahasiswa->foto)
-                        <img src="{{ asset('uploads/' . $mahasiswa->foto) }}" width="120" height="120"
-                            style="object-fit: cover;">
-                    @else
-                        <span class="text-muted">Tidak ada foto</span>
-                    @endif
-                </div>
+                    {{-- FOTO LAMA --}}
+                    <div class="mb-3">
+                        <label class="form-label">Foto Saat Ini</label><br>
 
-                {{-- FOTO BARU --}}
-                <div class="mb-3">
-                    <label class="form-label">Ganti Foto</label>
-                    <input type="file" name="foto" class="form-control">
-                </div>
+                        @if ($mahasiswa->foto)
+                            <img src="{{ asset('uploads/' . $mahasiswa->foto) }}" width="120" height="120"
+                                style="object-fit: cover;">
+                        @else
+                            <span class="text-muted">Tidak ada foto</span>
+                        @endif
+                    </div>
 
-                {{-- BUTTON --}}
-                <button type="submit" class="btn btn-primary w-100">
-                    Update Data
-                </button>
+                    {{-- FOTO BARU --}}
+                    <div class="mb-3">
+                        <label class="form-label">Ganti Foto</label>
+                        <input type="file" name="foto" class="form-control">
+                    </div>
 
-            </form>
+                    {{-- BUTTON --}}
+                    <button type="submit" class="btn btn-primary w-100">
+                        Update Data
+                    </button>
+
+                </form>
+            </div>
 
         </div>
 
